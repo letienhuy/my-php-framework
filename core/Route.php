@@ -34,7 +34,7 @@ class Route{
         $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
         return $query;
     }
-    private function addRoute($method, $uri, $action){
+    private static function addRoute($method, $uri, $action){
         $uri = strpos($uri, '/') === 0 ? $uri : '/'.$uri;
         Route::$routers[] = [$method,$uri,$action];
     }
@@ -44,7 +44,7 @@ class Route{
      * @return void
      */
     public static function get($uri, $action){
-        self::addRoute('GET', $uri, $action);
+        Route::addRoute('GET', $uri, $action);
     }
     /**
      * POST Method
@@ -52,7 +52,7 @@ class Route{
      * @return void
      */
     public static function post($uri, $action){
-        self::addRoute('POST', $uri, $action);
+        Route::addRoute('POST', $uri, $action);
     }
     /**
      * ANY Method
@@ -60,7 +60,7 @@ class Route{
      * @return void
      */
     public static function any($uri, $action){
-        self::addRoute('GET|POST|PUT|DELETE', $uri, $action);
+        Route::addRoute('GET|POST|PUT|DELETE', $uri, $action);
     }
     /**
      * Match method GET|POST|PUT|DELETE
@@ -71,14 +71,14 @@ class Route{
      * @return void
      */
     public static function match($method, $uri, $action){
-        self::addRoute($method, $uri, $action);
+        Route::addRoute($method, $uri, $action);
     }
     public function mapRoute(){
         $requestUri = $this->getRequestUri();
         $requestMethod = $this->getRequestMethod();
         $realUri = $this->getQueryString() ? explode('?', $requestUri)[0] : $requestUri;
         $isNotFound = true;
-        foreach(self::$routers as $router){
+        foreach(Route::$routers as $router){
             list($method,$uri,$action) = $router;
             $routerParams = [];
             $requestParams = [];

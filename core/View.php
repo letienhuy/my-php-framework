@@ -51,7 +51,7 @@ class View{
     }
 
     public static function render($view, $data = []){
-        echo self::compileView($view, $data);
+        echo (new View)->compileView($view, $data);
     }
 }
 ?>

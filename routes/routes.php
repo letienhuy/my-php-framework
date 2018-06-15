@@ -3,6 +3,6 @@ use Core\Route;
 use Core\View;
 use Core\Request;
 
-Route::get('/', function(){
+Route::get('/a/{id}', function(){
     return View::render('wellcome');
 });
