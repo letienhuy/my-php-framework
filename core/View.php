@@ -21,7 +21,7 @@ class View{
     private function compileView($view, $data = []){
         $view = str_replace('.', '/', $view).'.php';
         $viewPath = base_path().'/resources/views/'.$view;
-        $cachePath = base_path().'/core/cache/views/'.sha1($view).'.php';
+        $cachePath = base_path().'/storage/framework/views/'.sha1($view).'.php';
         if(file_exists($viewPath)){
             if(!file_exists($cachePath)){
                 try{
