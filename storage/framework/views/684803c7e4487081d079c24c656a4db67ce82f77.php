@@ -49,6 +49,7 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title">
+            <?php echo(var_dump(Core\App::getConfig())); ?>
             Wellcome to HuyIT Simple Framework
             </div>
         </div>
