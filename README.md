@@ -55,3 +55,40 @@ _Views_
 //php code here
 {/php}
 ```
+
+_Model_
+```php
+<?php
+
+namespace App\Models;
+use Core\Model;
+class User extends Model{
+    /**
+     * Primary key of table
+    */
+    protected $key;
+    /**
+     * Table name, default is name of class (Ex: users);
+    */
+    protected $table;
+}
+?>
+```
+```php
+//How to use in Controller
+<?php
+namespace App\Controllers;
+use Core\View;
+use Core\Controller as BaseController;
+use App\Models\User;
+class Controller extends BaseController{
+    function index(){
+        $user = User::where('id', 1); //select * form users where id=1
+        $user = User::where([['id', '=', 1], ['name', '=', 'Admin']]); //select * form users where id=1 and name=Admin
+        return View::render('path.viewname');
+    }
+}
+?>
+```
+
+```
