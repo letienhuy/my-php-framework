@@ -11,7 +11,7 @@ class Route{
     private function getRequestUri(){
         if(isset($_SERVER['REQUEST_URI'])){
             $uri = explode('/public/', $_SERVER['REQUEST_URI']);
-            return '/'.end($uri);
+            return count($uri) > 1 ? '/'.end($uri) : end($uri);
         } else {
             return '/';
         }
@@ -76,7 +76,7 @@ class Route{
     public function mapRoute(){
         $requestUri = $this->getRequestUri();
         $requestMethod = $this->getRequestMethod();
-        $realUri = $this->getQueryString() ? explode('?', $requestUri)[0] : $requestUri;
+        $realUri = str_replace($this->getQueryString(), '', $requestUri);
         $isNotFound = true;
         foreach(Route::$routers as $router){
             list($method,$uri,$action) = $router;
