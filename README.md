@@ -2,7 +2,7 @@
 __Framework theo mô hình MVC__
 
 _System require_
-+ PHP >= 5.6
++ PHP >= 7.0
 + PDO extension
 + JSON PHP Extension
 + XML PHP Extension
