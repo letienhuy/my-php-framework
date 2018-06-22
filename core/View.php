@@ -2,9 +2,31 @@
 namespace Core;
 
 class View{
-    private function compileViewContent($viewPath, $cachePath){
+    private function compileViewContent($viewPath){
+        $cachePath = base_path().'/storage/framework/views/'.sha1($viewPath).'.php';
         $f = fopen($cachePath, 'w+');
         $viewContent = file_get_contents($viewPath);
+        if(preg_match_all("/@include\('(.+?)'\)/", $viewContent, $matches)){
+            foreach(array_combine($matches[0], $matches[1]) as $key => $val){
+                $view = str_replace('.', '/', $val).'.php';
+                $viewPath = base_path().'/resources/views/'.$view;
+                $cachePath = base_path().'/storage/framework/views/'.sha1($viewPath).'.php';
+                if(!file_exists($cachePath)){
+                    try{
+                        $this->compileViewContent($viewPath);
+                    } catch(Exception $e){
+                        throw new AppException();
+                    }
+                }elseif(filemtime($viewPath) > filemtime($cachePath)){
+                    try{
+                        $this->compileViewContent($viewPath);
+                    } catch(Exception $e){
+                        throw new AppException();
+                    }              
+                }
+                $viewContent = str_replace($key, "<?php include('$cachePath'); ?>", $viewContent);
+            }
+        }
         if(preg_match_all('/{{(.+?)}}/', $viewContent, $matches)){
             foreach(array_combine($matches[0], $matches[1]) as $key => $val){
                 $viewContent = str_replace($key, "<?php echo($val); ?>", $viewContent);
@@ -21,16 +43,12 @@ class View{
     private function compileView($view, $data = []){
         $view = str_replace('.', '/', $view).'.php';
         $viewPath = base_path().'/resources/views/'.$view;
-        $cachePath = base_path().'/storage/framework/views/'.sha1($view).'.php';
+        $cachePath = base_path().'/storage/framework/views/'.sha1($viewPath).'.php';
         if(file_exists($viewPath)){
-            if(!file_exists($cachePath)){
-                try{
-                    self::compileViewContent($viewPath, $cachePath);
-                } catch(Exception $e){
-                    throw new AppException();
-                }
-            }elseif(filemtime($viewPath) > filemtime($cachePath)){
-                self::compileViewContent($viewPath, $cachePath);                
+            try{
+                self::compileViewContent($viewPath);
+            } catch(Exception $e){
+                throw new AppException();
             }
             ob_start();
             if(is_array($data)){

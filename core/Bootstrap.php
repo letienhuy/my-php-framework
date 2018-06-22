@@ -11,3 +11,9 @@ function dd($ext){
     var_dump($ext);
     echo '</pre>';
 }
+function url($url = null){
+    return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].str_replace($_SERVER['DOCUMENT_ROOT'], '', dirname($_SERVER['SCRIPT_FILENAME']));
+}
+function asset($asset){
+    return url().'/'.$asset;
+}

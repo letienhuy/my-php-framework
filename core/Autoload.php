@@ -5,13 +5,13 @@ class Autoload{
         spl_autoload_register(array($this, 'loader'));
     }
     private function loader($className) {
-        $filePath = base_path().'/'.strtolower($className).'.php';
+        $className = str_replace('\\','/',$className);
+        $className = str_replace('Core/','core/',$className);
+        $className = str_replace('App/','app/',$className);
+        $filePath = base_path().'/'.$className.'.php';
         if(file_exists($filePath)){
             require_once($filePath);
         }
-    }
-    public function getLoaded(){
-        return $this->loaded;
     }
 }
 $autoload = new Autoload();
