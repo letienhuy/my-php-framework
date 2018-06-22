@@ -4,9 +4,9 @@ return [
     'connections' => [
         'driver' => 'mysql',
         'host' => 'localhost',
-        'database' => 'demo',
+        'database' => 'test_oop',
         'username' => 'root',
-        'password' => 'root',
+        'password' => '',
         'port' => 3306
     ]
 ];

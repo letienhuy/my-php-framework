@@ -50,7 +50,7 @@
         <div class="content">
             <img width="100" height="100" src="https://apprecs.org/gp/images/app-icons/300/91/com.neurondigital.FakeError.jpg" alt="Wrong!">
             <div class="title">
-            <?php echo is_null($e->getMessage()) ? 'Look like something went wrong!': $e->getMessage();?>
+            <?php echo empty($e->getMessage()) ? 'Look like something went wrong!': $e->getMessage();?>
             </div>
         </div>
     </div>
