@@ -71,5 +71,12 @@ class View{
     public static function render($view, $data = []){
         echo (new View)->compileView($view, $data);
     }
+    public static function exist($view){
+        $view = str_replace('.', '/', $view).'.php';
+        $viewPath = base_path().'/resources/views/'.$view;
+        if(file_exists($viewPath))
+            return true;
+        return false;
+    }
 }
 ?>
